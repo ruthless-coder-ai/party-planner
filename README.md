@@ -13,30 +13,32 @@
 
 ## 部署
 
-推到 GitHub 后在 Cloudflare Pages 里连这个仓库:
+已经上线:**https://party-plan.pages.dev**
+
+Cloudflare Pages 项目名是 `party-plan`(不是 `party-planner` —— 那个 pages.dev
+子域被别的账号占了),已连接本仓库,推到 `main` 会自动构建部署。
+
+项目配置:
 
 - **Build command** —— 留空
 - **Build output directory** —— `/`
 
-然后在 **Settings → Environment variables** 里加一条 secret:
+环境变量在 **Settings → Environment variables** 里,production 环境需要:
 
 | 名称 | 值 |
 | --- | --- |
-| `GEMINI_API_KEY` | 你的 Google AI Studio key |
+| `GEMINI_API_KEY` | Google AI Studio 的 key(Secret 类型) |
 
-没配这个变量时,接口返回 501,前端会提示去设置。
-
-## 本地跑
+或者用命令行设:
 
 ```bash
-npx wrangler pages dev .
+npx wrangler pages secret put GEMINI_API_KEY --project-name party-plan
 ```
 
-本地要用真实模型的话,在项目根目录建一个 `.dev.vars`(已 gitignore):
+> **注意**:Pages Function 在**部署时**绑定环境变量。新设或改了 secret 之后
+> 必须重新部署一次才生效,改完直接刷页面是不会变的。
 
-```
-GEMINI_API_KEY=...
-```
+没配这个变量时接口返回 501,前端会提示。
 
 ## 接口
 
